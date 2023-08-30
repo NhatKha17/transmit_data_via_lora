@@ -1,0 +1,5 @@
+../Core/Src/DHT11.c:2:6:Set_Pin_Output	1
+../Core/Src/DHT11.c:9:6:Set_Pin_Input	1
+../Core/Src/DHT11.c:16:6:DHT11_Init	1
+../Core/Src/DHT11.c:24:9:DHT11_CheckRespone	5
+../Core/Src/DHT11.c:41:9:DHT11_ReadData	7

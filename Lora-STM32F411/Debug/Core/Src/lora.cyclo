@@ -1,0 +1,10 @@
+../Core/Src/lora.c:7:9:lora_read_reg	3
+../Core/Src/lora.c:20:6:lora_write_reg	3
+../Core/Src/lora.c:30:9:lora_init	2
+../Core/Src/lora.c:56:5:lora_prasePacket	5
+../Core/Src/lora.c:80:9:lora_available	1
+../Core/Src/lora.c:84:9:lora_read	2
+../Core/Src/lora.c:91:9:lora_begin_packet	2
+../Core/Src/lora.c:103:6:lora_tx	3
+../Core/Src/lora.c:115:9:lora_end_packet	3
+../Core/Src/lora.c:128:6:lora_set_frequency	1

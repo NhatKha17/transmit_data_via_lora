@@ -1,0 +1,17 @@
+23:39:55 **** Incremental Build of configuration Debug for project Lora-STM32F411 ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F411xE -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Lora-STM32F411.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Nhat Kha\Desktop\F103\Lora-STM32F411\STM32F411VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Lora-STM32F411.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Lora-STM32F411.elf
+ 
+arm-none-eabi-size   Lora-STM32F411.elf 
+arm-none-eabi-objdump -h -S  Lora-STM32F411.elf  > "Lora-STM32F411.list"
+   text	   data	    bss	    dec	    hex	filename
+  32036	    476	   2284	  34796	   87ec	Lora-STM32F411.elf
+Finished building: default.size.stdout
+ 
+Finished building: Lora-STM32F411.list
+ 
+
+23:39:56 Build Finished. 0 errors, 0 warnings. (took 1s.398ms)
+

@@ -1,0 +1,24 @@
+21:30:13 **** Incremental Build of configuration Debug for project Lora-STM32F103 ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:171:41: warning: 'sprintf' may write a terminating nul past the end of the destination [-Wformat-overflow=]
+  171 |                 sprintf(buf_humi,"%.2f\n",Humidity);
+      |                                         ^
+../Core/Src/main.c:171:17: note: 'sprintf' output between 5 and 315 bytes into a destination of size 5
+  171 |                 sprintf(buf_humi,"%.2f\n",Humidity);
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "Lora-STM32F103.elf" @"objects.list"   -mcpu=cortex-m3 -T"C:\Users\Nhat Kha\Desktop\F103\Lora-STM32F103\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Lora-STM32F103.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Lora-STM32F103.elf
+ 
+arm-none-eabi-size   Lora-STM32F103.elf 
+arm-none-eabi-objdump -h -S  Lora-STM32F103.elf  > "Lora-STM32F103.list"
+   text	   data	    bss	    dec	    hex	filename
+  38752	    476	   2284	  41512	   a228	Lora-STM32F103.elf
+Finished building: default.size.stdout
+ 
+Finished building: Lora-STM32F103.list
+ 
+
+21:30:15 Build Finished. 0 errors, 1 warnings. (took 1s.400ms)
+
