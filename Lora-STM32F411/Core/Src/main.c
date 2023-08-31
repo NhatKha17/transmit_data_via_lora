@@ -23,6 +23,7 @@
 /* USER CODE BEGIN Includes */
 #include "lora.h"
 #include "lcd.h"
+#include "ESPDataLogger.h"
 #include <string.h>
 #include <stdio.h>
 /* USER CODE END Includes */
@@ -34,8 +35,6 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-//#define TX						 		// Uncomment for Transmission
-#define RX									// Uncomment for Reception
 
 /* USER CODE END PD */
 
@@ -49,6 +48,7 @@ I2C_HandleTypeDef hi2c1;
 
 SPI_HandleTypeDef hspi1;
 
+UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
@@ -59,6 +59,7 @@ char msg[64];									// character buffer for printf
 char buf[13];									// buf save data
 char buf_temp[6];
 char buf_humi[6];
+uint16_t Val_ESP[2];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -67,6 +68,7 @@ static void MX_GPIO_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_I2C1_Init(void);
+static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -150,11 +152,12 @@ int main(void)
   MX_SPI1_Init();
   MX_USART2_UART_Init();
   MX_I2C1_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
 Config_Lora();
 lcd_config();
-
+ESP_Init("NHASAU", "danh1005");
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -164,22 +167,21 @@ lcd_config();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	#ifdef TX
 
-		  sprintf(buf,"OK");
-		  lora_begin_packet(&lora);
-		  lora_tx(&lora, (uint8_t *)buf, strlen(buf));
-		  lora_end_packet(&lora);
-		  sprintf(msg,"Sending packet \r\n");
-		  HAL_UART_Transmit(&huart2,(uint8_t *)msg,strlen(msg),1000);
-		  HAL_Delay(1000);
+//	  	  /*LORA TRANSMITDATA BEGIN*/
+//		  sprintf(buf,"OK");
+//		  lora_begin_packet(&lora);
+//		  lora_tx(&lora, (uint8_t *)buf, strlen(buf));
+//		  lora_end_packet(&lora);
+//		  sprintf(msg,"Sending packet \r\n");
+//		  HAL_UART_Transmit(&huart2,(uint8_t *)msg,strlen(msg),1000);
+//		  HAL_Delay(1000);
+//	  	  /*LORA TRANSMITDATA END*/
 
 
-	#endif
 
-	#ifdef RX
 		  /*RECEIVE data via LORA BEGIN*/
-		  uint8_t ret = lora_prasePacket(&lora);
+	  uint8_t ret = lora_prasePacket(&lora);
 		if(ret){
 			uint8_t i=0;
 			while(lora_available(&lora)){
@@ -196,6 +198,8 @@ lcd_config();
 					  buf_humi[6]='\0';
 				Display_Temp(buf_temp);
 				Display_Rh(buf_humi);
+				Val_ESP[0]=atoi(buf_temp);
+				Val_ESP[1]=atoi(buf_humi);
 			/*cut string to buf_temp and buf_humi END */
 			sprintf(msg,"\nDHT11----\n");
 			HAL_UART_Transmit(&huart2,(uint8_t *)msg,strlen(msg),1000);
@@ -203,10 +207,13 @@ lcd_config();
 			HAL_UART_Transmit(&huart2,(uint8_t *)msg,strlen(msg),1000);
 			sprintf(msg,"Humidity  : %s\r\n",buf_humi);
 			HAL_UART_Transmit(&huart2,(uint8_t *)msg,strlen(msg),1000);
+			ESP_Send_Multi("GVGK3A0U71TWQ0MN", 2, Val_ESP);
 			}
+		 /*RECEIVE data via LORA BEGIN*/
 
 
-	#endif
+
+
   }
   /* USER CODE END 3 */
 }
@@ -325,6 +332,39 @@ static void MX_SPI1_Init(void)
   /* USER CODE BEGIN SPI1_Init 2 */
 
   /* USER CODE END SPI1_Init 2 */
+
+}
+
+/**
+  * @brief USART1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART1_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART1_Init 0 */
+
+  /* USER CODE END USART1_Init 0 */
+
+  /* USER CODE BEGIN USART1_Init 1 */
+
+  /* USER CODE END USART1_Init 1 */
+  huart1.Instance = USART1;
+  huart1.Init.BaudRate = 115200;
+  huart1.Init.WordLength = UART_WORDLENGTH_8B;
+  huart1.Init.StopBits = UART_STOPBITS_1;
+  huart1.Init.Parity = UART_PARITY_NONE;
+  huart1.Init.Mode = UART_MODE_TX_RX;
+  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART1_Init 2 */
+
+  /* USER CODE END USART1_Init 2 */
 
 }
 

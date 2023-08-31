@@ -1,3 +1,5 @@
+"./Core/Src/ESPDataLogger.o"
+"./Core/Src/UartRingbuffer.o"
 "./Core/Src/lcd.o"
 "./Core/Src/lora.o"
 "./Core/Src/main.o"
